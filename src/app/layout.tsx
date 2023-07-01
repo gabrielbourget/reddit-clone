@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/Toaster";
+import Providers from "@/components/Providers";
 
 const inter = Inter({subsets: ["latin"] });
 
@@ -22,15 +23,17 @@ export default function RootLayout({
       'bg-white text-slate-900 antialiased light', inter.className
     )}>
       <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-        { /* @ts-expect-error server component */ }
-        <Navbar />
+        <Providers>
+          { /* @ts-expect-error server component */ }
+          <Navbar />
 
-        {authModal}
+          {authModal}
 
-        <div className="container max-w-7xl mx-auto h-full pt-12">
-          {children}
-        </div>
-        <Toaster />
+          <div className="container max-w-7xl mx-auto h-full pt-12">
+            {children}
+          </div>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   )
