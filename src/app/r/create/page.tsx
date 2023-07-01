@@ -1,16 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { CreateSubredditPayload } from "@/lib/validators/subreddit";
+import { toast } from "@/hooks/use-toast";
+import { useCustomToast } from "@/hooks/use-custom-toast";
 
 const page = () => {
   const [input, setInput] = useState<string>("");
   const router = useRouter();
+  const { unauthenticatedToast } = useCustomToast();
 
   const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
@@ -21,6 +24,43 @@ const page = () => {
       const { data } = await axios.post("/api/subreddit", payload);
 
       return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast({
+            title: "Subbbreaddit already exists.",
+            description: "Please choose a different subbreaddit name",
+            variant: "destructive"
+          });
+        }
+        
+        if (err.response?.status === 422) {
+          return toast({
+            title: "Invalid subbreaddit name",
+            description: "Please choose a name between 3 and 40 characters",
+            variant: "destructive"
+          });
+        }
+
+        if (err.response?.status === 401) {
+          return unauthenticatedToast();
+        }
+      }
+
+      toast({
+        title: "Error encountered",
+        description: "Something went wrong while trying to add a new subbreaddit",
+        variant: "destructive"
+      })
+    },
+    onSuccess: (data) => {
+      router.push(`/r/${data}`);
+      toast({
+        title: "Success",
+        description: "Subbreaddit was successfully created.",
+        variant: "default",
+      })
     }
   })
 
