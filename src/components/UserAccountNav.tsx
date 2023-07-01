@@ -54,7 +54,7 @@ const UserAccountNav = (props: UserAccountNavProps) => {
         <DropdownMenuItem asChild>
           <Link href="/r/create">Create SubBreadit</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild> 
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         
