@@ -19,7 +19,6 @@ const UserAuthForm = (props: UserAuthFormProps) => {
 
     try {
       await signIn("google");
-      throw new Error()
     } catch (err) {
         toast({
           title: "There was a problem",
