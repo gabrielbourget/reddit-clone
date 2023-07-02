@@ -19,14 +19,27 @@ export async function POST(req: Request) {
       where: { subredditId, userId: session.user.id }
     });
     
-    if (subscriptionExists) {
-      return new Response("You are already subscribed to this subreddit.", { status: 400 });
+    if (!subscriptionExists) {
+      return new Response("You are are not subscribed to this subreddit.", { status: 400 });
+    }
+
+    const ownSubreddit = await db.subreddit.findFirst({
+      where: {
+        id: subredditId,
+        creatorId: session.user.id,
+      }
+    });
+
+    if (ownSubreddit) {
+      return new Response("You cannot unsubscribe from your own subreddit", { status: 400 });
     }
     
-    await db.subscription.create({
-      data: {
-        subredditId,
-        userId: session.user.id
+    await db.subscription.delete({
+      where: {
+        userId_subredditId: {
+          subredditId,
+          userId: session.user.id
+        }
       }
     });
 
