@@ -2,13 +2,14 @@
 
 // -> Beyond codebase
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import type EditorJS from "@editorjs/editorjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextAreaAutoSize from "react-textarea-autosize";
-import type EditorJS from "@editorjs/editorjs";
-import { uploadFiles } from "@/lib/uploadthing";
 // -> Within codebase
+import { toast } from "@/hooks/use-toast";
+import { uploadFiles } from "@/lib/uploadthing";
 
 type PostEditorProps = {
   subredditId: string;
@@ -90,8 +91,19 @@ const PostEditor = (props: PostEditorProps) => {
         },
       })
     }
-  }, [])
+  }, []);
 
+  useEffect(() => {
+    if (Object.keys(errors).length) {
+      for (const [_key, value] of Object.entries(errors)) {
+        toast({
+          title: "Something went wrong.",
+          description: (value as { message: string}).message,
+          variant: "destructive"
+        });
+      }
+    }
+  }, [errors]);
 
   useEffect(() => {
     const init = async () => {
@@ -119,7 +131,7 @@ const PostEditor = (props: PostEditorProps) => {
       <form
         id="subreddit-post-form"
         className="w-fit"
-        onSubmit={() => {}}
+        onSubmit={handleSubmit((e) => {})}
       >
         <div className="prose prose-stone dark:prose-invert">
           <TextAreaAutoSize
