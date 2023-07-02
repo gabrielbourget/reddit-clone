@@ -41,6 +41,7 @@ const page = async (props: PageProps) => {
         r/{subbreadit.name}
       </h1>
       <MiniCreatePost session={session} />
+      
     </>
   )
 }
