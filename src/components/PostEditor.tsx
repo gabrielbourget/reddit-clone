@@ -29,6 +29,7 @@ const PostEditor = (props: PostEditorProps) => {
   });
 
   const ref = useRef<EditorJS>();
+  const _titleRef = useRef<HTMLTextAreaElement>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -97,8 +98,8 @@ const PostEditor = (props: PostEditorProps) => {
       await initializeEditor()
 
       setTimeout(() => {
-        // _titleRef?.current?.focus()
-      }, 0)
+        _titleRef?.current?.focus()
+      }, 0);
     }
 
     if (isMounted) {
@@ -109,7 +110,9 @@ const PostEditor = (props: PostEditorProps) => {
         ref.current = undefined
       }
     }
-  }, [isMounted, initializeEditor])
+  }, [isMounted, initializeEditor]);
+  
+  const { ref: titleRef, ...rest } = register("title");
 
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg-border border-zinc-200">
@@ -120,6 +123,12 @@ const PostEditor = (props: PostEditorProps) => {
       >
         <div className="prose prose-stone dark:prose-invert">
           <TextAreaAutoSize
+            ref={(e) => {
+              titleRef(e)
+              // @ts-ignore
+              _titleRef.current = e;
+            }}
+            { ...rest }
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
