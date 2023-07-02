@@ -40,6 +40,6 @@ export async function POST(req: Request) {
       return new Response(err.message, { status: 422 });
     }
 
-    return new Response("Could not create new subbreaddit", { status: 500 });
+    return new Response("Could not create new subbreadit", { status: 500 });
   }
 };

@@ -30,14 +30,14 @@ const page = () => {
         if (err.response?.status === 409) {
           return toast({
             title: "Subbbreaddit already exists.",
-            description: "Please choose a different subbreaddit name",
+            description: "Please choose a different subbreadit name",
             variant: "destructive"
           });
         }
         
         if (err.response?.status === 422) {
           return toast({
-            title: "Invalid subbreaddit name",
+            title: "Invalid subbreadit name",
             description: "Please choose a name between 3 and 40 characters",
             variant: "destructive"
           });
@@ -50,7 +50,7 @@ const page = () => {
 
       toast({
         title: "Error encountered",
-        description: "Something went wrong while trying to add a new subbreaddit",
+        description: "Something went wrong while trying to add a new subbreadit",
         variant: "destructive"
       })
     },
@@ -58,7 +58,7 @@ const page = () => {
       router.push(`/r/${data}`);
       toast({
         title: "Success",
-        description: "Subbreaddit was successfully created.",
+        description: "subbreadit was successfully created.",
         variant: "default",
       })
     }
