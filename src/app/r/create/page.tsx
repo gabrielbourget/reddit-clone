@@ -29,15 +29,15 @@ const page = () => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
           return toast({
-            title: "Subbbreaddit already exists.",
-            description: "Please choose a different subbreadit name",
+            title: "Subreddit already exists.",
+            description: "Please choose a different subreddit name",
             variant: "destructive"
           });
         }
         
         if (err.response?.status === 422) {
           return toast({
-            title: "Invalid subbreadit name",
+            title: "Invalid subreddit name",
             description: "Please choose a name between 3 and 40 characters",
             variant: "destructive"
           });
@@ -50,7 +50,7 @@ const page = () => {
 
       toast({
         title: "Error encountered",
-        description: "Something went wrong while trying to add a new subbreadit",
+        description: "Something went wrong while trying to add a new subreddit",
         variant: "destructive"
       })
     },
@@ -58,7 +58,7 @@ const page = () => {
       router.push(`/r/${data}`);
       toast({
         title: "Success",
-        description: "subbreadit was successfully created.",
+        description: "subreddit was successfully created.",
         variant: "default",
       })
     }

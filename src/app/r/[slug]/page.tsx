@@ -17,7 +17,7 @@ const page = async (props: PageProps) => {
 
   const session = await getAuthSession();
 
-  const subbreadit = await db.subreddit.findFirst({
+  const subreddit = await db.subreddit.findFirst({
     where: { name: slug },
     include: {
       posts: {
@@ -33,12 +33,12 @@ const page = async (props: PageProps) => {
     }
   });
 
-  if (!subbreadit) return notFound();
+  if (!subreddit) return notFound();
 
   return (
     <>
       <h1 className="font-bold text-3xl md:text-4xl h-14">
-        r/{subbreadit.name}
+        r/{subreddit.name}
       </h1>
       <MiniCreatePost session={session} />
       

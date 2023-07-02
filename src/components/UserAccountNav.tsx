@@ -52,7 +52,7 @@ const UserAccountNav = (props: UserAccountNavProps) => {
           <Link href="/">Feed</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/r/create">Create SubBreadit</Link>
+          <Link href="/r/create">Create subreddit</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild> 
           <Link href="/settings">Settings</Link>
