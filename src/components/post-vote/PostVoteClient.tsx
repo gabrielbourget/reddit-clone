@@ -32,8 +32,8 @@ const PostVoteClient = (props: PostVoteClientProps) => {
   }, [initialVote]);
 
   const { mutate: vote } = useMutation({
-    mutationFn: async (type: VoteType) => {
-      const payload: PostVoteRequest = { postId, voteType: type };
+    mutationFn: async (voteType: VoteType) => {
+      const payload: PostVoteRequest = { postId, voteType };
 
       await axios.patch("/api/subreddit/post/vote", payload);
     },
