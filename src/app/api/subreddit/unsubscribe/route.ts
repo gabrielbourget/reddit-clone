@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { SubbreadditSubscriptionValidator } from "@/lib/validators/subreddit";
+import { SubredditSubscriptionValidator } from "@/lib/validators/subreddit";
 
 export async function POST(req: Request) {
   try {
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     
     const body = await req.json();
     
-    const { subredditId } = SubbreadditSubscriptionValidator.parse(body);
+    const { subredditId } = SubredditSubscriptionValidator.parse(body);
     
     const subscriptionExists = await db.subscription.findFirst({
       where: { subredditId, userId: session.user.id }
