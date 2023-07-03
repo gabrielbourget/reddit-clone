@@ -5,7 +5,7 @@ import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import type EditorJS from "@editorjs/editorjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -135,12 +135,22 @@ const PostEditor = (props: PostEditorProps) => {
       const { data } = await axios.post("/api/subreddit/post/create", payload);
       return data;
     },
-    onError: () => {
-      return toast({
-        title: "something went wrong.",
-        description: "There was a problem creating your post, please try again.",
-        variant: "destructive"
-      });
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 400) {
+          return toast({
+            title: "Something went wrong.",
+            description: "Subscribe to this subreddit in order to post.",
+            variant: "destructive"
+          });
+        }
+        
+        return toast({
+          title: "Something went wrong.",
+          description: "There was a problem creating your post, please try again.",
+          variant: "destructive"
+        });
+      }
     },
     onSuccess: () => {
       const newPathname = pathname.split("/").slice(0,-1).join("/");

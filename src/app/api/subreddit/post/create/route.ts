@@ -11,6 +11,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
     
+    console.log('got here');
     const body = await req.json();
     
     const { title, content, subredditId } = PostValidator.parse(body);
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
     });
     
     if (!subscriptionExists) {
-      return new Response("Subscribe to subreddit in order to post", { status: 400 });
+      return new Response("Subscribe to this subreddit in order to post", { status: 400 });
     }
     
     await db.post.create({

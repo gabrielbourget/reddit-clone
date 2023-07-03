@@ -4,11 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 // -> Within codebase
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
-import { Button, buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import PostEditor from "@/components/PostEditor";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -109,14 +108,6 @@ const Layout = async (props: LayoutProps) => {
             </dl>
           </div>
         </div>
-      </div>
-
-      <PostEditor subredditId={subreddit.id} />
-
-      <div className="w-full flex justify-end">
-        <Button type="submit" className="w-full" form="subreddit-post-form">
-          Post
-        </Button>
       </div>
     </div>
   )
