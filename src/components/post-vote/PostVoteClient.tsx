@@ -27,7 +27,7 @@ const PostVoteClient = (props: PostVoteClientProps) => {
   const prevVote = usePrevious(currentVote);
 
   useEffect(() => {
-    setCurrentVote(initialVote);
+    setCurrentVote(initialVote); 
   }, [initialVote]);
 
   const { } = useMutation({
@@ -36,7 +36,7 @@ const PostVoteClient = (props: PostVoteClientProps) => {
 
       await axios.patch("/api/subreddit/post/vote", payload);
     }
-  })
+  });
 
   return (
     <div className="flex sm:flex-col gap-4 sm:gap-0 sm:w-20 pb-4 sm:pb-0">
