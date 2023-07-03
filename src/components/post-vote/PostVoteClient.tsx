@@ -2,9 +2,10 @@
 import { usePrevious } from "@mantine/hooks";
 import { VoteType } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 // -> Withi ncodebase
 import { useCustomToast } from "@/hooks/use-custom-toast";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PostVoteRequest } from "@/lib/validators/vote";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
@@ -35,6 +36,31 @@ const PostVoteClient = (props: PostVoteClientProps) => {
       const payload: PostVoteRequest = { postId, voteType: type };
 
       await axios.patch("/api/subreddit/post/vote", payload);
+    },
+    onError: (err, voteType) => {
+      if (voteType === "UP") setVotesAmt((prev) => prev -1);
+      else setVotesAmt((prev) => prev + 1);
+
+      setCurrentVote(prevVote);
+
+      if (err instanceof AxiosError) return unauthenticatedToast();
+
+      return toast({
+        title: "Something went wrong",
+        description: "Your vote was not successfully recorded, please try again.",
+        variant: "destructive"
+      });
+    },
+    onMutate: (voteType: VoteType) => {
+      if (currentVote === voteType) {
+        setCurrentVote(undefined);
+        if (voteType === "UP") setVotesAmt((prev) => prev - 1);
+        else if (voteType === "DOWN") setVotesAmt((prev) => prev + 1);
+      } else {
+        setCurrentVote(voteType);
+        if (voteType === "UP") setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
+        if (voteType === "DOWN") setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
+      }
     }
   });
 
