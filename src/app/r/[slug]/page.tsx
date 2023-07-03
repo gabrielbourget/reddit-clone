@@ -29,8 +29,7 @@ const page = async (props: PageProps) => {
           subreddit: true
         },
         
-        take: 5
-        // take: INFINITE_SCROLLING_PAGINATION_RESULTS
+        take: INFINITE_SCROLLING_PAGINATION_RESULTS
       }
     }
   });
