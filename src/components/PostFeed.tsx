@@ -54,16 +54,25 @@ const PostFeed = (props: PostFeedProps) => {
           }, 0);
 
           const currentVote = post.votes.find((vote) => vote.userId === session?.user.id);
+          const commentAmt = post.comments.length;
 
           if (index === posts.length - 1) {
             return (
               <li key={post.id} ref={intersectionRef}>
-                <Post />
+                <Post
+                  subredditName={post.subreddit.name}
+                  post={post}
+                  commentAmt={commentAmt}
+                  />
               </li>
             );
           } else {
             return (
-              <Post />
+              <Post
+                subredditName={post.subreddit.name}
+                post={post}
+                commentAmt={commentAmt}
+              />
             );
           }
         })
