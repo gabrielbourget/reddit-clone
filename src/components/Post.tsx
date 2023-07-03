@@ -65,7 +65,7 @@ const Post = (props: PostProps) => {
               ) : null
             }
           </div>
-        P</div>
+        </div>
       </div>
 
       <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">

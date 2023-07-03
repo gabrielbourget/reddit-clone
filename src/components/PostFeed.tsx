@@ -76,6 +76,7 @@ const PostFeed = (props: PostFeedProps) => {
                 commentAmt={commentAmt}
                 votesAmt={votesAmt}
                 currentVote={currentVote}
+                key={post.id}
               />
             );
           }

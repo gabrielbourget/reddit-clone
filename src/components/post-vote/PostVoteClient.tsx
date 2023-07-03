@@ -17,6 +17,7 @@ type PostVoteClientProps = {
 
 const PostVoteClient = (props: PostVoteClientProps) => {
   const { postId, initialVotesAmt, initialVote } = props;
+
   const { unauthenticatedToast } = useCustomToast();
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt);
   const [currentVote, setCurrentVote] = useState(initialVote);
