@@ -4,6 +4,7 @@ import { useRef } from "react";
 // -> Within codebase
 import { formatTimeToNow } from "@/lib/utils";
 import { MessageSquare } from "lucide-react";
+import EditorOutput from "./EditorOutput";
 
 type PostProps = {
   subredditName: string;
@@ -45,9 +46,10 @@ const Post = (props: PostProps) => {
           </a>
 
           <div ref={postRef} className="relative text-sm max-h-40 w-full overflow-clip">
+            <EditorOutput content={post.content} />
             {
               (postRef?.current?.clientHeight! === 160) ? (
-                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradiaent-to-t from-white to-transparent" />
+                <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
               ) : null
             }
           </div>
