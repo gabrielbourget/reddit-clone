@@ -47,7 +47,7 @@ const PostFeed = (props: PostFeedProps) => {
     <ul className="flex flex-col col-span-2 space-y-6">
       {
         posts.map((post: ExtendedPost, index: number) => {
-          const votesCount = post.votes.reduce((acc: number, vote: Vote) => {
+          const votesAmt = post.votes.reduce((acc: number, vote: Vote) => {
             if (vote.type === "UP") return acc + 1;
             else if (vote.type === "DOWN") return acc - 1;
             return acc;
@@ -63,6 +63,8 @@ const PostFeed = (props: PostFeedProps) => {
                   subredditName={post.subreddit.name}
                   post={post}
                   commentAmt={commentAmt}
+                  votesAmt={votesAmt}
+                  currentVote={currentVote}
                   />
               </li>
             );
@@ -72,6 +74,8 @@ const PostFeed = (props: PostFeedProps) => {
                 subredditName={post.subreddit.name}
                 post={post}
                 commentAmt={commentAmt}
+                votesAmt={votesAmt}
+                currentVote={currentVote}
               />
             );
           }
