@@ -31,11 +31,9 @@ export async function PATCH(req: Request) {
           where: { userId_commentId: { commentId, userId: session.user.id }},
           data: { type: voteType }
         });
-  
-  
+
         return new Response("Successful post vote", { status: 200 });
       }
-
     }
 
     await db.commentVote.create({
