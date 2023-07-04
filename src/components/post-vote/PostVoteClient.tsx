@@ -1,3 +1,5 @@
+"use client";
+
 // -> Beyond codebase
 import { usePrevious } from "@mantine/hooks";
 import { VoteType } from "@prisma/client";

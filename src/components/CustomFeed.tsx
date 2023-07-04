@@ -30,7 +30,7 @@ const CustomFeed = async () => {
   });
 
   return (
-    <PostFeed initialPosts={posts} />
+    < PostFeed initialPosts={posts} />
   )
 }
 
