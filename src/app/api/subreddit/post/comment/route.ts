@@ -28,6 +28,6 @@ export async function PATCH(req: Request) {
       return new Response("Invalid request data passed", { status: 422 });
     }
 
-    return new Response("Could not create the comment for this post", { status: 500 });
+    return new Response("Could not create a comment for this post", { status: 500 });
   }
 }

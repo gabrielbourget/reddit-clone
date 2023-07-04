@@ -1,11 +1,20 @@
 "use client";
 // -> Beyond codebase
 import { Comment, CommentVote, User } from "@prisma/client";
-import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { MessageSquare } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 // -> Within codebase
 import { formatTimeToNow } from "@/lib/utils";
+import { CommentRequest } from "@/lib/validators/comment";
 import UserAvatar from "./UserAvatar";
 import CommentVotes from "./post-vote/CommentVotes";
+import { Button } from "./ui/Button";
+import { Label } from "./ui/Label";
+import { TextArea } from "./ui/TextArea";
+import axios from "axios";
 
 type ExtendedComment = Comment & {
   votes: CommentVote[];
@@ -21,7 +30,22 @@ type PostCommentProps = {
 
 const PostComment = (props: PostCommentProps) => {
   const { comment, votesAmt, currentVote, postId } = props;
+  
   const commentRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+
+  const { mutate: postComment, isLoading } = useMutation({
+    mutationFn: async ({ postId, text, replyToId }: CommentRequest) => {
+      const payload: CommentRequest = { postId, text, replyToId };
+
+      const { data } = await axios.patch("/api/subreddit/post/comment");
+      return data;
+    }
+  })
 
   return (
     <div className="" ref={commentRef}>
@@ -43,8 +67,62 @@ const PostComment = (props: PostCommentProps) => {
 
       <p className="text-sm text-zinc-900 mt-2">{comment.text}</p>
 
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center flex-wrap">
         <CommentVotes commentId={comment.id} initialVotesAmt={votesAmt}/>
+
+        <Button
+          variant="ghost"
+          size="xs"
+          onClick={() => {
+            if (!session) return router.push("/sign-in")
+            setIsReplying(true);
+          }}
+        >
+          <MessageSquare className="h-4 w-4 mr-1.5" />
+          {" "}Reply
+        </Button>
+
+        {
+          (isReplying) ? (
+            <div className="grid w-full gap-1.5">
+              <Label>Your reply</Label>
+              <div className="mt-2">
+                <TextArea
+                  id="comment"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  rows={1}
+                  placeholder="What's on your mind?"
+                />
+
+                <div className="mt-2 flex justify-end gap-2">
+                  <Button
+                    tabIndex={-1}
+                    variant="subtle"
+                    size="xs"
+                    onClick={() => {
+                      setIsReplying(false);
+                      setInput("");
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    isLoading={isLoading}
+                    size="xs"
+                    disabled={input.length === 0}
+                    onClick={() => {
+                      if (!input) return;
+                      postComment({ postId, text: input, replyToId: comment.replyToId ?? comment.id })
+                    }}
+                  >
+                    Post Reply
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : null
+        }
       </div>
     </div>
   )
