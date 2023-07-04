@@ -5,6 +5,7 @@ import { ArrowBigDown, ArrowBigUp, Loader2 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 // -> Within codebase
+import CommentsSection from '@/components/CommentsSection';
 import EditorOutput from '@/components/EditorOutput';
 import PostVoteServer from '@/components/post-vote/PostVoteServer';
 import { buttonVariants } from '@/components/ui/Button';
@@ -65,6 +66,10 @@ const page = async (props: PageProps) => {
           </h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
+
+          <Suspense fallback={<Loader2 className="w-5 h-5 text-zinc-500 animate-spin"/>}>
+            <CommentsSection />
+          </Suspense>
         </div>
       </div>
     </div>
