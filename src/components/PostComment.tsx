@@ -5,6 +5,7 @@ import { useRef } from "react";
 // -> Within codebase
 import { formatTimeToNow } from "@/lib/utils";
 import UserAvatar from "./UserAvatar";
+import CommentVotes from "./post-vote/CommentVotes";
 
 type ExtendedComment = Comment & {
   votes: CommentVote[];
@@ -13,10 +14,13 @@ type ExtendedComment = Comment & {
 
 type PostCommentProps = {
   comment: ExtendedComment;
+  votesAmt: number;
+  currentVote: CommentVote | undefined;
+  postId: string;
 }
 
 const PostComment = (props: PostCommentProps) => {
-  const { comment } = props;
+  const { comment, votesAmt, currentVote, postId } = props;
   const commentRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -38,6 +42,10 @@ const PostComment = (props: PostCommentProps) => {
       </div>
 
       <p className="text-sm text-zinc-900 mt-2">{comment.text}</p>
+
+      <div className="flex gap-2 items-center">
+        <CommentVotes commentId={comment.id} initialVotesAmt={votesAmt}/>
+      </div>
     </div>
   )
 }
