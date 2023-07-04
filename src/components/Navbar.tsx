@@ -1,8 +1,11 @@
+// -> Beyond codebase
 import Link from "next/link";
-import { Icons } from "./Icons";
-import { buttonVariants } from "./ui/Button";
+// -> Within codebase
 import { getAuthSession } from "@/lib/auth";
+import { Icons } from "./Icons";
+import SearchBar from "./SearchBar";
 import UserAccountNav from "./UserAccountNav";
+import { buttonVariants } from "./ui/Button";
 
 
 const Navbar = async () => {
@@ -13,11 +16,11 @@ const Navbar = async () => {
       <div className="container max-w-7xl h-full mx-auto flex items-center justify-between">
         {/* Logo */}
         <Icons.logo className="h-8 w-8 cm:h-6 sm:w-6" />
-        <Link href="/" className="flex gap-2 items-center">
+        {/* <Link href="/" className="flex gap-2 items-center">
           <p className="hidden text-zinc-700 text-sm font-medium md:block">Breadit</p>
-        </Link>
+        </Link> */}
 
-        {/* Search Bar */}
+        <SearchBar />
 
         {
           (session?.user) ? (
