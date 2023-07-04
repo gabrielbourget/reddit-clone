@@ -2,7 +2,7 @@
 import Link from "next/link";
 // -> Within codebase
 import { getAuthSession } from "@/lib/auth";
-import Icons from "./Icons";
+import Icons from "@/components/Icons";
 import SearchBar from "./SearchBar";
 import UserAccountNav from "./UserAccountNav";
 import { buttonVariants } from "./ui/Button";
