@@ -2,11 +2,13 @@
 // -> Beyond codebase
 import { Comment, CommentVote, User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 // -> Within codebase
+import { toast } from "@/hooks/use-toast";
 import { formatTimeToNow } from "@/lib/utils";
 import { CommentRequest } from "@/lib/validators/comment";
 import UserAvatar from "./UserAvatar";
@@ -14,7 +16,6 @@ import CommentVotes from "./post-vote/CommentVotes";
 import { Button } from "./ui/Button";
 import { Label } from "./ui/Label";
 import { TextArea } from "./ui/TextArea";
-import axios from "axios";
 
 type ExtendedComment = Comment & {
   votes: CommentVote[];
@@ -42,8 +43,20 @@ const PostComment = (props: PostCommentProps) => {
     mutationFn: async ({ postId, text, replyToId }: CommentRequest) => {
       const payload: CommentRequest = { postId, text, replyToId };
 
-      const { data } = await axios.patch("/api/subreddit/post/comment");
+      const { data } = await axios.patch("/api/subreddit/post/comment", payload);
       return data;
+    },
+    onError: () => {
+      return toast({
+        title: "Something went wrong",
+        description: "Something went wrong trying to post this comment, please try again.",
+        variant: "destructive"
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      setInput("");
+      setIsReplying(false);
     }
   })
 
