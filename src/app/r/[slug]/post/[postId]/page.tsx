@@ -22,7 +22,7 @@ interface PageProps {
   }
 }
 
-const page = async (props: PageProps) => {
+const Page = async (props: PageProps) => {
   const { params: { postId }} = props;
 
   const cachedPost = await redis.hgetall(`post:${postId}`) as CachedPost;
@@ -93,4 +93,4 @@ function PostVoteShell() {
   )
 }
 
-export default page
+export default Page

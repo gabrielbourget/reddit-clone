@@ -13,7 +13,7 @@ type PageProps = {
 }
 
 
-const page = async (props: PageProps) => {
+const Page = async (props: PageProps) => {
   const { params: { slug }} = props;
 
   const session = await getAuthSession();
@@ -50,4 +50,4 @@ const page = async (props: PageProps) => {
   )
 }
 
-export default page
+export default Page
