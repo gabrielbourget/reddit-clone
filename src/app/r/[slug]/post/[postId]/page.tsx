@@ -68,7 +68,8 @@ const page = async (props: PageProps) => {
           <EditorOutput content={post?.content ?? cachedPost.content} />
 
           <Suspense fallback={<Loader2 className="w-5 h-5 text-zinc-500 animate-spin"/>}>
-            <CommentsSection />
+            {/* @ts-expect-error server component */}
+            <CommentsSection postId={postId ?? cachedPost.id } />
           </Suspense>
         </div>
       </div>

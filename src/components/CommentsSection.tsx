@@ -36,7 +36,7 @@ const CommentsSection = async ({ postId }: { postId: string }) => {
             return (
               <div className="flex flex-col" key={topLevelComment.id}>
                 <div className="mb-2">
-                  <PostComment />
+                  <PostComment comment={topLevelComment} />
                 </div>
               </div>
             );
