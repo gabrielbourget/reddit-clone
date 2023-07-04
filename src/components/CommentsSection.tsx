@@ -4,6 +4,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import PostComment from "./PostComment";
+import CreateComment from "./CreateComment";
 
 const CommentsSection = async ({ postId }: { postId: string }) => {
   const session = await getAuthSession();
@@ -21,6 +22,8 @@ const CommentsSection = async ({ postId }: { postId: string }) => {
   return (
     <div className="flex flex-col gap-y-4 mt-4">
       <br className="w-full h-px my-6" />
+
+      <CreateComment />
 
       <div className="flex flex-col gap-y-6">
         {
